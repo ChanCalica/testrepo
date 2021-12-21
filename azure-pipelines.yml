@@ -32,15 +32,8 @@ stages:
               containerRegistry: 'DockerHubConnections'
               repository: 'chan29 / testangular'
               command: 'push'
-              - task: PublishBuildArtifacts@1
+              - task: PublishPipelineArtifact@1
                 inputs:
-                  PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-                  ArtifactName: 'drop'
-                  publishLocation: 'Container'
-                  - task: DownloadBuildArtifacts@1
-                    inputs:
-                      buildType: 'current'
-                      downloadType: 'single'
-                      artifactName: 'drop'
-                      downloadPath: '$(System.ArtifactsDirectory)'
-
+                  targetPath: '$(Pipeline.Workspace)'
+                  artifact: 'Drop'
+                  publishLocation: 'pipeline'
