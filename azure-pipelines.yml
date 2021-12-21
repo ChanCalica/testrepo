@@ -21,19 +21,13 @@ stages:
       vmImage: ubuntu-latest
     steps:
     - task: Docker@2
-      displayName: Build an image
       inputs:
-        command: build
-        dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
-        tags: |
-          $(tag)
-          - task: Docker@2
-            inputs:
-              containerRegistry: 'DockerHubConnections'
-              repository: 'chan29 / testangular'
-              command: 'push'
-              - task: PublishPipelineArtifact@1
-                inputs:
-                  targetPath: '$(Pipeline.Workspace)'
-                  artifact: 'Drop'
-                  publishLocation: 'pipeline'
+        containerRegistry: 'DockerHubConnections'
+        repository: 'chan29 / testangular'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
