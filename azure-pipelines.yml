@@ -29,6 +29,7 @@ stages:
         repository: 'chan29 / testangular'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
+        tags: v1
     - task: CopyFiles@2
       inputs:
         Contents: '**'
