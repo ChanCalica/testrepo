@@ -20,12 +20,19 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
+    - task: DockerInstaller@0
+      inputs:
+        dockerVersion: '17.09.0-ce'
     - task: Docker@2
       inputs:
         containerRegistry: 'DockerHubConnections'
         repository: 'chan29 / testangular'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
+    - task: CopyFiles@2
+      inputs:
+        Contents: '**'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
